@@ -4,20 +4,27 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<!-- <script type="text/javascript" src="..assets/javascrip/game.js"></script> -->
-	
+	<link rel="stylesheet" href="assets/css/reset.css">
+	<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-	<h1>Hang-man</h1>
+<h1>Hangman</h1>
 
-	<h3 id="demo"></h3>
+<div id="container">
+	
 
+	<p> Type a letter to guess the hidden word. If you guess correctly, the letter will show in the correct space of the word. If you guess incorrectly then the incorrect letter will show and you will lose a life.
+	</p>
 	
 	<div id="hangman-word"></div>
+	<h2>Remaining lives left:</h2>
 	<div id="lives-left"></div>
+	<h2>Letters already guessed:</h2>
 	<div id="letters-guessed"></div>
+	<a href="javascript:setup()"><input type="button" style="cursor:pointer; margin-left: 10px; font-size:18px;" value="Start game / Reset game"></a>
 
-	
+	</div>
 	<script src="assets/javascript/game.js"></script>
 </body>
 

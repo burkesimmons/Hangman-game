@@ -5,40 +5,34 @@ var wrongGuesses;
 var wordOptions;
 
 var hangmanWord = document.getElementById('hangman-word');
-console.log('hangmanWord', hangmanWord);
 var livesLeft = document.getElementById('lives-left');
 var lettersGuessed = document.getElementById('letters-guessed');
 
 function setup() {
-  wordOptions = ['cat', 'dog', 'horse', 'cow', 'sheep', 'pig'];
+  wordOptions = ['cat', 'dog', 'horse', 'cow', 'sheep', 'pig', 'goat', 'chicken', 'bull', ];
   allowedGuesses = 13;
   wrongGuesses = [];
   correctGuesses = [];
 
 wordCurrent = wordOptions[Math.floor(Math.random() * wordOptions.length)];
 
-// console.log(wordCurrent);
-
-  // initialize correctGuesses array with underscores
   for (var i = 0; i < wordCurrent.length; i++) {
     correctGuesses.push('_');
   }
-  console.log('hangmanWord', hangmanWord);
   hangmanWord.innerHTML = correctGuesses.join(' ');
   livesLeft.innerHTML = allowedGuesses;
 }
 
 
 function updateGuesses(letter) {
-  allowedGuesses--; // decrement guesses left
+  allowedGuesses--; 
   livesLeft.innerHTML = allowedGuesses;
 
-  if (wordCurrent.indexOf(letter) === -1) { // letter is NOT in the word
-    wrongGuesses.push(letter); // update letters guessed
+  if (wordCurrent.indexOf(letter) === -1) {
+    wrongGuesses.push(letter);
     lettersGuessed.innerHTML = wrongGuesses.join(', ');
-    // console.log(wrongGuesses);
-  } else { // letter IS in the word
-    // replace underscore with the letter
+    
+  } else { 
     for (var i = 0; i < wordCurrent.length; i++) {
       if (wordCurrent[i] === letter) {
         correctGuesses[i] = letter;
@@ -62,5 +56,3 @@ document.onkeyup = function (event) {
   updateGuesses(letterGuessed);
   checkWin();
 };
-
-setup();
