@@ -2,10 +2,11 @@
 
 
 //Arrays and Variables for holding data
-var wordOptions = ['zom bie', 'blood curdling', 'ceme tary', 'cor pse', 'de ad', 'disem bowel', 'goose bumps', 'grave yard'];
+var wordOptions = ['zombie', 'blood curdling', 'cemetary', 'corpse', 'dead', 'disembowel', 'goosebumps', 'graveyard'];
 //******How do I place a space for 2 words and not need to guess the space? 
 var wordGuessingNow = '';
 var lettersInWord = [];
+var lettersInWordWithSpace = [];
 var amountOfLettersInWord = 0;
 var correctGuesses = [];
 var wrongGuesses = [];
@@ -25,12 +26,13 @@ function startGame () {
 	// console.log("Word used right now", wordGuessingNow);
 	//****How do I store these wordGuessingNow and not chose it again upon playing?
 	lettersInWord = wordGuessingNow.split('');
-	console.log('Letters in word: ', lettersInWord);
 	amountOfLettersInWord = lettersInWord.length;
-	// console.log('# of letters: ', amountOfLettersInWord);
+	for (var i = 0; i < amountOfLettersInWord; i++) {
+		if(wordGuessingNow[i] == " ") {
+			lettersInWord[i] = "&nbsp";
+		};
+	};
 
-	// alphabetLetters = alphabet.split('');
-// console.log(alphabetLetters);
 	//Reset
 	guessesLeft = 13;
 	wrongGuesses = [];
@@ -40,12 +42,9 @@ function startGame () {
 	for (var i = 0; i < amountOfLettersInWord; i++) {
 		if(wordGuessingNow[i] == " ") {
 			correctGuesses.push("&nbsp");
-			console.log('Correct Guesses Array', correctGuesses);
 		} else {
 		correctGuesses.push('_');
-		// console.log(correctGuesses);
 		};
-		//****How does the space in a word get joined as a space and not _
 	}
 
 	//Change HTML to reflect round conditions
@@ -54,12 +53,6 @@ function startGame () {
  	document.getElementById('winCounter').innerHTML = winCount;
  	document.getElementById('lossCounter').innerHTML = lossCount;
  	document.getElementById('wrongGuesses').innerHTML = wrongGuesses;
-
-	console.log("Word used right now: ", wordGuessingNow);
-	// console.log("Letter in word: ", lettersInWord);
-	// console.log("Amount of letters in word: ", amountOfLettersInWord);
-	// console.log("Correct guesses: ", correctGuesses);
-
 };
 
 function checkLetterInWord(letter) {
@@ -78,7 +71,6 @@ function checkLetterInWord(letter) {
 		for (var i = 0; i < amountOfLettersInWord; i++) {
 			if(wordGuessingNow[i] == letter) {
 				correctGuesses[i] = letter;
-				console.log('Correct Guesses: ', correctGuesses);
 			}
 		};
 	}
@@ -91,7 +83,6 @@ function checkLetterInWord(letter) {
 };	
 
 function roundComplete() {
-	// console.log('Win Count: ' + winCount + ' | Loss Count: ' + lossCount + ' | Guesses Left' + guessesLeft);
 
 	//Update the HTML to reflect the most recent count stats
 	document.getElementById('guessesLeft').innerHTML = guessesLeft;
@@ -125,17 +116,12 @@ startGame();
 
 document.onkeypress = function(event) {
 	if (event.keyCode >= 97 && event.keyCode <= 122) {
-		// console.log(event.keyCode);
 
 		var letterGuessed = String.fromCharCode(event.keyCode);
-		// console.log(letterGuessed);
 		checkLetterInWord(letterGuessed);
 		roundComplete();
 
 	} else {
 		alert('Please use a letter from the alphapet');
-		// console.log(event.keyCode);
 	}
-
-	// console.log(letterGuessed);
 };
