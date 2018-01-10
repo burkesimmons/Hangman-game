@@ -3,31 +3,51 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
-	<!-- <script type="text/javascript" src="..assets/javascrip/game.js"></script> -->
-	<link rel="stylesheet" href="assets/css/reset.css">
-	<link rel="stylesheet" href="assets/css/style.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
 
-<img src="assets/images/barnyard.jpg" alt="Barn with animals">
-<h1>Barnyard Hangman</h1>
+	<div class="container">
+		<div class="jumbotron" style="background-color: lightsteelblue;">
+			<h1><span class="text-danger">Zombie</span> Hangman Game</h1>
+			<p></p>
+		</div>
+		
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Panel title</h3>
+		</div>
 
-<div id="container">
-	
+		<div class="panel-body">
+			<h2 class="text-danger" id="wordToGuess">_ _ _ _ _ _ _</h2>
+		</div>
+		
+		<div class="panel panel-default">
+			<div class="panel-body">
+				Wrong Guesses: <h2 id="wrongGuesses"></h2>
+			</div>
+		</div>
 
-	<p> Type a letter to guess the hidden word. If you guess correctly, the letter will show in the correct space of the word. If you guess incorrectly then the incorrect letter will show and you will lose a life.
-	</p>
-	
-	<div id="hangman-word"></div>
-	<h2>Remaining lives left:</h2>
-	<div id="lives-left"></div>
-	<h2>Letters already guessed:</h2>
-	<div id="letters-guessed"></div>
-	
+		<div class="panel panel-default">
+			<div class="panel-body">
+				Guesses Left: <span id="guessesLeft">13</span>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-body">
+				Win Counter: <span id="winCounter">0</span>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-body">
+				Loss Counter: <span id="lossCounter">0</span>
+			</div>
+		</div>
 
 	</div>
+
 	<script src="assets/javascript/game.js"></script>
 </body>
-
-
 </html>

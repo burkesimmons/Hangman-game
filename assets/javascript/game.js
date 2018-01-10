@@ -1,72 +1,126 @@
-//My attempt at coding it myself
-
-// var word = "bored";
-
-// for (var i = 0; i < word.length; i++) {
-//   word[i] = '_';
-// }
+//Global Variables
 
 
+//Arrays and Variables for holding data
+var wordOptions = ['zombie', 'blood curdling', 'cemetary', 'corpse', 'dead', 'disembowel', 'goosebumps', 'graveyard'];
+var wordGuessingNow = '';
+var lettersInWord = [];
+var lettersInWordWithSpace = [];
+var amountOfLettersInWord = 0;
+var correctGuesses = [];
+var wrongGuesses = [];
+// var alphabet = "abcdefghijklmnopqrstuvwxyz";
 
 
-var wordCurrent;
-var allowedGuesses;
-var correctGuesses;
-var wrongGuesses;
-var wordOptions = ['cat', 'dog', 'horse', 'cow', 'sheep', 'pig', 'goat', 'chicken', 'bull'];
 
-var hangmanWord = document.getElementById('hangman-word');
-var livesLeft = document.getElementById('lives-left');
-var lettersGuessed = document.getElementById('letters-guessed');
+//Game Counters
+var winCount = 0;
+var lossCount = 0;
+var guessesLeft = 13;
 
-function setup() {
-  allowedGuesses = 13;
-  wrongGuesses = [];
-  correctGuesses = [];
 
-  wordCurrent = wordOptions[Math.floor(Math.random() * wordOptions.length)];
+//Functions
+function startGame () {
+	wordGuessingNow = wordOptions[Math.floor(Math.random() * wordOptions.length)];
+	// console.log("Word used right now", wordGuessingNow);
+	//****How do I store these wordGuessingNow and not chose it again upon playing?
+	lettersInWord = wordGuessingNow.split('');
+	amountOfLettersInWord = lettersInWord.length;
+	for (var i = 0; i < amountOfLettersInWord; i++) {
+		if(wordGuessingNow[i] == " ") {
+			lettersInWord[i] = "&nbsp";
+		};
+	};
 
-  for (var i = 0; i < wordCurrent.length; i++) {
-    correctGuesses.push('_');
-  }
-  hangmanWord.innerHTML = correctGuesses.join(' ');
-  livesLeft.innerHTML = allowedGuesses;
-  lettersGuessed.innerHTML = wrongGuesses;
+	//Reset
+	guessesLeft = 13;
+	wrongGuesses = [];
+	correctGuesses = [];
+
+	//Populate correctGuesses with right number of blanks and adds spaces automatically
+	for (var i = 0; i < amountOfLettersInWord; i++) {
+		if(wordGuessingNow[i] == " ") {
+			correctGuesses.push("&nbsp");
+		} else {
+		correctGuesses.push('_');
+		};
+	}
+
+	//Change HTML to reflect round conditions
+	document.getElementById('wordToGuess').innerHTML = correctGuesses.join(' ');
+ 	document.getElementById('guessesLeft').innerHTML = guessesLeft;
+ 	document.getElementById('winCounter').innerHTML = winCount;
+ 	document.getElementById('lossCounter').innerHTML = lossCount;
+ 	document.getElementById('wrongGuesses').innerHTML = wrongGuesses;
+};
+
+function checkLetterInWord(letter) {
+	//Check if letter exists in current hangman word
+
+	var isLetterInWord = false;
+
+	for (var i = 0; i < amountOfLettersInWord; i++) {
+		if(wordGuessingNow[i] == letter) {
+			isLetterInWord = true;
+		};
+	};
+
+ 	//Check where in word letter exists, then populate correctGuesses array
+	if(isLetterInWord) {
+		for (var i = 0; i < amountOfLettersInWord; i++) {
+			if(wordGuessingNow[i] == letter) {
+				correctGuesses[i] = letter;
+			}
+		};
+	}
+
+	//Letter wasn't found
+	else {
+		wrongGuesses.push(letter);
+		guessesLeft --;
+	};
+};	
+
+function roundComplete() {
+
+	//Update the HTML to reflect the most recent count stats
+	document.getElementById('guessesLeft').innerHTML = guessesLeft;
+	document.getElementById('wordToGuess').innerHTML = correctGuesses.join(' ');
+	document.getElementById('wrongGuesses').innerHTML = wrongGuesses.join(' ');
+
+	//Check if user won
+	if(lettersInWord.toString() == correctGuesses.toString()) {
+		winCount ++;
+		alert('You won!');
+
+		//Update the win counter in the HTML
+		document.getElementById('winCounter').innerHTML = winCount;
+		startGame();
+	} 
+
+	//Check if the user lost
+	else if (guessesLeft == 0) {
+		lossCount ++;
+		alert('You lost!');
+
+		//Update the HTML
+		document.getElementById('lossCounter').innerHTML = lossCount;
+
+		startGame();
+	}
 }
 
+//Main processes
+startGame();
 
-function updateGuesses(letter) {
-  allowedGuesses--; 
-  livesLeft.innerHTML = allowedGuesses;
+document.onkeypress = function(event) {
+	if (event.keyCode >= 97 && event.keyCode <= 122) {
 
-  if (wordCurrent.indexOf(letter) == -1) {
-    wrongGuesses.push(letter);
-    lettersGuessed.innerHTML = wrongGuesses.join(', ');
-    
-  } else { 
-    for (var i = 0; i < wordCurrent.length; i++) {
-      if (wordCurrent[i] == letter) {
-        correctGuesses[i] = letter;
-      }
-    }
+		var letterGuessed = String.fromCharCode(event.keyCode);
+		checkLetterInWord(letterGuessed);
+		roundComplete();
 
-    hangmanWord.innerHTML = correctGuesses.join(' ');
-  }
-}
-
-function checkWin() {
-  if (correctGuesses.indexOf('_') == -1) {
-    alert('You Won!');
-    setup();
-  } else if (allowedGuesses == 0) {
-    alert('You Lost!');
-    setup();
-  }
-}
-setup();
-
-document.onkeyup = function (event) {
-  var letterGuessed = String.fromCharCode(event.keyCode).toLowerCase();
-  updateGuesses(letterGuessed);
-  checkWin();
+	} else {
+		alert('Please use a letter from the alphapet');
+	}
 };
